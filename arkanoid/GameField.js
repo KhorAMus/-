@@ -15,7 +15,7 @@ window.arkanoid.GameField = function(){
     // Шар на поле
     this.ball;
     // Платформа на поле
-    this.puddle;
+    this.paddle;
 
     this.draw = function(){
         this.canvasContext.clearRect(0, 0, this.width, this.height);
@@ -23,7 +23,7 @@ window.arkanoid.GameField = function(){
             brick.draw();
         });
         this.ball.draw();
-        this.puddle.draw();
+        this.paddle.draw();
         drawBorders();
     };
     function drawBorders(){
@@ -41,10 +41,10 @@ window.arkanoid.GameField = function(){
 
     this.move = function(isLeftButtonPressed, isRightButtonPressed, secondsElapsed){
         if(isLeftButtonPressed){
-            this.puddle.shiftLeft(secondsElapsed);
+            this.paddle.shiftLeft(secondsElapsed);
         }
         if(isRightButtonPressed){
-            this.puddle.shiftRight(secondsElapsed);
+            this.paddle.shiftRight(secondsElapsed);
         }
         this.ball.move(secondsElapsed);
     }

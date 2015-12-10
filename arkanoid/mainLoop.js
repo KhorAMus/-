@@ -35,11 +35,11 @@ if(window.arkanoid == undefined) window.arkanoid = {};
 
     testGameField.bricks =bricks;
     testGameField.ball = window.arkanoid.Ball.createDefault(testGameField);
-    testGameField.puddle = window.arkanoid.Puddle.createDefault(testGameField);
-    testGameField.deadHeight = testGameField.puddle.height/2+testGameField.puddle.yCenterPosition;
+    testGameField.paddle = window.arkanoid.Paddle.createDefault(testGameField);
+    testGameField.deadHeight = testGameField.paddle.height/2+testGameField.paddle.yCenterPosition;
 
 
-    var puddle = window.arkanoid.Puddle.createDefault(context);
+    var puddle = window.arkanoid.Paddle.createDefault(context);
     var lastTime = 0;
 
     requestAnimationFrame(function redraw(timeStamp) {

@@ -28,10 +28,11 @@ window.arkanoid.Ball = function() {
     this.move = function move(secondsElapsed){
         // Столкновение платформы и шара
         // При столкновении шар приобретает новое направление,
-        // заданное в Puddle через функцию collideResolve. При этом шар игнорирует своё старое направление
-        var puddleUpY =self.gameField.puddle.yCenterPosition - self.gameField.puddle.height/2;
-        if (self.yCenterPosition + self.radius >= puddleUpY){ // Если шар по высоте находится на уровне платформы
-            var newDirectionAngle = self.gameField.puddle.collideResolve(self.xCenterPosition);
+        // заданное в Paddle через функцию collideResolve. При этом шар игнорирует своё старое направление
+        var puddleUpY =self.gameField.paddle.yCenterPosition - self.gameField.paddle.height/2;
+        var isOnPlatformHeight = self.yCenterPosition + self.radius >= puddleUpY;
+        if (isOnPlatformHeight){ // Если шар по высоте находится на уровне платформы
+            var newDirectionAngle = self.gameField.paddle.collideResolve(self.xCenterPosition);
             if(newDirectionAngle != null){
                 var directionVector = {
                     i: Math.cos(newDirectionAngle),
@@ -77,9 +78,9 @@ window.arkanoid.Ball = function() {
         console.log(this.direction.getUnionVector().i + " " + this.direction.getUnionVector().j);
     };
     function collideResearch(){
-        var touchedBricksIndices = new Array(0);
+        var touchedBricksIndices = [];
         var bricks = self.gameField.bricks;
-        var normalAngles = new Array(0);
+        var normalAngles = [];
         //Проверка, что соответствующий направлению шара луч
         //пересекает кирпич, или границу
 
@@ -104,8 +105,8 @@ window.arkanoid.Ball = function() {
             'x': self.xCenterPosition - vectorAddToCenter.i,
             'y': self.yCenterPosition - vectorAddToCenter.j
         };
-        centerBeam.direction =new window.arkanoid.Direction( beamDirectionVector);
-        rightBeam.direction =new window.arkanoid.Direction( beamDirectionVector);
+        centerBeam.direction =new window.arkanoid.Direction(beamDirectionVector);
+        rightBeam.direction =new window.arkanoid.Direction(beamDirectionVector);
         leftBeam.direction =new window.arkanoid.Direction(beamDirectionVector);
         var beams = [centerBeam, leftBeam, rightBeam];
         for(var i=0; i < bricks.length; i++){
@@ -114,7 +115,7 @@ window.arkanoid.Ball = function() {
                 continue;
             }
             // определим точки пересечения очередного кирпича с шаром
-            var touchedPoints = new Array(0);
+            var touchedPoints = [];
             // c вертикальными сторонами кирпича
             var verticalTouchedPoints = getVerticalIntersectionPoints(bricks[i]);
             verticalTouchedPoints.forEach(function (point){
@@ -159,9 +160,9 @@ window.arkanoid.Ball = function() {
         }
         // столкновение платформы и шара
 
-        var puddleUpY =self.gameField.puddle.yCenterPosition - self.gameField.puddle.height/2;
+        var puddleUpY =self.gameField.paddle.yCenterPosition - self.gameField.paddle.height/2;
         if (self.yCenterPosition + self.radius >= puddleUpY){
-            var normalAngleToPuddle = self.gameField.puddle.collideResolve(self.xCenterPosition);
+            var normalAngleToPuddle = self.gameField.paddle.collideResolve(self.xCenterPosition);
             if (normalAngleToPuddle != null){
                 normalAngles.push(normalAngleToPuddle);
             }
@@ -185,7 +186,7 @@ window.arkanoid.Ball = function() {
     }
     function getVerticalIntersectionPoints(brick){
 
-        var touchedPoints =new Array(0);
+        var touchedPoints =[];
         var x1 = brick.xCenterPosition - brick.width/2;
         var x2 = brick.xCenterPosition + brick.width/2;
         var y1 = brick.yCenterPosition - brick.height/2;
@@ -218,7 +219,7 @@ window.arkanoid.Ball = function() {
         return touchedPoints;
     }
     function getHorizontalIntersectionPoints(brick){
-        var touchedPoints =new Array(0);
+        var touchedPoints =[];
         var x1 = brick.xCenterPosition - brick.width/2;
         var x2 = brick.xCenterPosition + brick.width/2;
         var y1 = brick.yCenterPosition - brick.height/2;

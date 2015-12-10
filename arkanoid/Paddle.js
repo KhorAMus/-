@@ -2,8 +2,8 @@
  * Created by khoramus on 26.11.2015.
  */
 if(window.arkanoid == undefined) window.arkanoid = {};
-// Конструктор объекта, представляющий собой платформа, Puddle, которая отбивает шар
-window.arkanoid.Puddle = function(){
+// Конструктор объекта, представляющий собой платформу, Paddle, которая отбивает шар
+window.arkanoid.Paddle = function(){
     var self = this;
     this.length;
     this.height;
@@ -19,14 +19,14 @@ window.arkanoid.Puddle = function(){
         this.gameField.canvasContext.fillStyle=this.color.toString();
         this.gameField.canvasContext.fillRect(leftUpCornerX, leftUpCornerY, this.length, this.height);
     };
-    // Сдвиг Puddle влево. Принимает число секунд прошедшее с последнего
+    // Сдвиг Paddle влево. Принимает число секунд прошедшее с последнего
     // момента отрисовки
     this.shiftLeft = function(secondsElapsed){
         if((this.xCenterPosition - this.length / 2) > 0){
             this.xCenterPosition -= secondsElapsed * this.velocity;
         }
     };
-    // Сдвиг Puddle вправо. Принимает число секунд прошедшее с последнего
+    // Сдвиг Paddle вправо. Принимает число секунд прошедшее с последнего
     // момента отрисовки
     this.shiftRight = function(secondsElapsed){
         if((this.xCenterPosition + this.length / 2) < this.gameField.width){
@@ -54,17 +54,17 @@ window.arkanoid.Puddle = function(){
 };
 
 
-// Задаёт Puddle со стандартными параметрами
+// Задаёт Paddle со стандартными параметрами
 // Принимает объект GameField
-window.arkanoid.Puddle.createDefault = function(gameField){
-    var defaultPuddle = new window.arkanoid.Puddle();
-    defaultPuddle.length = 100;
-    defaultPuddle.height = 15;
-    defaultPuddle.color = new window.arkanoid.Color(255,0,0);
-    defaultPuddle.velocity = 280;
-    defaultPuddle.xCenterPosition = gameField.width / 2;
-    defaultPuddle.yCenterPosition = gameField.height -20;
-    defaultPuddle.gameField = gameField;
+window.arkanoid.Paddle.createDefault = function(gameField){
+    var defaultPaddle = new window.arkanoid.Paddle();
+    defaultPaddle.length = 100;
+    defaultPaddle.height = 15;
+    defaultPaddle.color = new window.arkanoid.Color(255,0,0);
+    defaultPaddle.velocity = 280;
+    defaultPaddle.xCenterPosition = gameField.width / 2;
+    defaultPaddle.yCenterPosition = gameField.height -20;
+    defaultPaddle.gameField = gameField;
 
-    return defaultPuddle;
+    return defaultPaddle;
 };
