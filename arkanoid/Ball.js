@@ -3,14 +3,16 @@
  */
 if(window.arkanoid == undefined) window.arkanoid = {};
 //Конструктор объекта, представляющего собой шар для разбивания кирпичей
-window.arkanoid.Ball = function() {
+window.arkanoid.Ball = function(gameField) {
     this.radius;
 
     this.direction; // Направление, заданное как объект Direction
     this.xCenterPosition;
     this.yCenterPosition;
     this.velocity;
-    this.gameField;
+    this.gameField = gameField;
+    var collideBrickSound = new Audio("sounds/Collide1.wav");
+    var collideBorderOrPlatformSound = new Audio("sounds/Collide2.wav");
 
 
 
@@ -26,6 +28,9 @@ window.arkanoid.Ball = function() {
     };
     var self = this;
     this.move = function move(secondsElapsed){
+        if(gameField.isStartState){
+            return;
+        }
         // Столкновение платформы и шара
         // При столкновении шар приобретает новое направление,
         // заданное в Paddle через функцию collideResolve. При этом шар игнорирует своё старое направление
@@ -39,6 +44,7 @@ window.arkanoid.Ball = function() {
                     j: -Math.sin(newDirectionAngle)
                 };
                 self.direction = new window.arkanoid.Direction(directionVector);
+                collideBorderOrPlatformSound.play();
             }
         }
         else {
@@ -74,7 +80,6 @@ window.arkanoid.Ball = function() {
         coordinateResearch();
         this.xCenterPosition += secondsElapsed * this.velocity * this.direction.getUnionVector().i;
         this.yCenterPosition += secondsElapsed * this.velocity * this.direction.getUnionVector().j;
-
         console.log(this.direction.getUnionVector().i + " " + this.direction.getUnionVector().j);
     };
     function collideResearch(){
@@ -140,23 +145,33 @@ window.arkanoid.Ball = function() {
                 }
             }
         }
-        // TODO вызов метода увеличения очков (метод ещё не создан)
+
+        // увеличение очков
+        if(touchedBricksIndices.length > 0){
+            self.gameField.game.score+= touchedBricksIndices.length;
+            collideBrickSound.play();
+        }
+
+
         hitBricks(touchedBricksIndices);
         // учтём точки пересечения шара и границ
         //правая сторона
         if (((self.xCenterPosition + self.radius) >= self.gameField.width)&&
         (beams.some(function(beam){return beam.isIntersectVerticalSide(self.gameField.width, 0, self.gameField.height);}))){
             normalAngles.push(Math.PI);
+            collideBorderOrPlatformSound.play();
         }
         //левая сторона
         if (((self.xCenterPosition - self.radius) <= 0) &&
         (beams.some(function(beam){return beam.isIntersectVerticalSide(0, 0, self.gameField.height);}))){
             normalAngles.push(0);
+            collideBorderOrPlatformSound.play();
         }
         //верхняя сторона
         if (((self.yCenterPosition - self.radius) <= 0) &&
         (beams.some(function(beam){return beam.isIntersectHorizontalSide(0, 0, self.gameField.width);}))){
             normalAngles.push(1.5*Math.PI);
+            collideBorderOrPlatformSound.play();
         }
         // столкновение платформы и шара
 
@@ -165,6 +180,7 @@ window.arkanoid.Ball = function() {
             var normalAngleToPuddle = self.gameField.paddle.collideResolve(self.xCenterPosition);
             if (normalAngleToPuddle != null){
                 normalAngles.push(normalAngleToPuddle);
+
             }
         }
 

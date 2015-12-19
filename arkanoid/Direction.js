@@ -6,7 +6,7 @@ if(window.arkanoid == undefined) window.arkanoid = {};
 //Direction задаёт направление. При передаче в конструктор нулевого вектора
 //направление станет равным направлению вектора (0,-1)
 //принимает объект с числовыми полями i и j
-window.arkanoid.Direction = function(vector){
+window.arkanoid.Direction = function Direction(vector){
     var vectorCopy = {};
     vectorCopy.i = vector.i;
     vectorCopy.j = vector.j;

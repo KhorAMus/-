@@ -2,7 +2,7 @@
  * Created by khoramus on 28.11.2015.
  */
 if(window.arkanoid == undefined) window.arkanoid = {};
-window.arkanoid.GameField = function(){
+window.arkanoid.GameField = function GameField(game){
     // height и width определяют границы за которые не может вылететь шар
     this.height;
     this.width;
@@ -16,8 +16,12 @@ window.arkanoid.GameField = function(){
     this.ball;
     // Платформа на поле
     this.paddle;
+    // Если равно true, то ничего не должно двигаться
+    this.isStartState = true;
 
-    this.draw = function(){
+    this.game = game;
+
+    this.draw = function draw(){
         this.canvasContext.clearRect(0, 0, this.width, this.height);
         this.bricks.forEach(function(brick, i) {
             brick.draw();
@@ -39,7 +43,7 @@ window.arkanoid.GameField = function(){
     }
 
 
-    this.move = function(isLeftButtonPressed, isRightButtonPressed, secondsElapsed){
+    this.move = function move(isLeftButtonPressed, isRightButtonPressed, secondsElapsed){
         if(isLeftButtonPressed){
             this.paddle.shiftLeft(secondsElapsed);
         }

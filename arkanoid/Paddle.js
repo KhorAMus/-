@@ -21,14 +21,14 @@ window.arkanoid.Paddle = function(){
     };
     // Сдвиг Paddle влево. Принимает число секунд прошедшее с последнего
     // момента отрисовки
-    this.shiftLeft = function(secondsElapsed){
+    this.shiftLeft = function shiftLeft(secondsElapsed){
         if((this.xCenterPosition - this.length / 2) > 0){
             this.xCenterPosition -= secondsElapsed * this.velocity;
         }
     };
     // Сдвиг Paddle вправо. Принимает число секунд прошедшее с последнего
     // момента отрисовки
-    this.shiftRight = function(secondsElapsed){
+    this.shiftRight = function shiftRight(secondsElapsed){
         if((this.xCenterPosition + this.length / 2) < this.gameField.width){
             this.xCenterPosition += secondsElapsed * this.velocity;
         }
@@ -56,7 +56,7 @@ window.arkanoid.Paddle = function(){
 
 // Задаёт Paddle со стандартными параметрами
 // Принимает объект GameField
-window.arkanoid.Paddle.createDefault = function(gameField){
+window.arkanoid.Paddle.createDefault = function createDefaultPaddle(gameField){
     var defaultPaddle = new window.arkanoid.Paddle();
     defaultPaddle.length = 100;
     defaultPaddle.height = 15;

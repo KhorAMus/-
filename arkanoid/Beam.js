@@ -4,7 +4,7 @@
 
 if(window.arkanoid == undefined) window.arkanoid = {};
 
-window.arkanoid.Beam = function () {
+window.arkanoid.Beam = function Beam() {
     var VectorProcedures = window.arkanoid.VectorProcedures;
     var self = this;
     // Точка исхода луча
